@@ -4,10 +4,10 @@ public enum TokenType
 {
     Text,
     Header,
-    StrongStart,
-    StrongEnd,
-    EmphasisStart,
-    EmphasisEnd,
-    BackSlash,
-    NextLine
+    Strong,
+    Space,
+    Emphasis,
+    Escape,
+    NextLine,
+    ListItem 
 }

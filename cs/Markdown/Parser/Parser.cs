@@ -6,5 +6,5 @@ public class Parser
     {
         throw new NotImplementedException();
     }
-    
+
 }

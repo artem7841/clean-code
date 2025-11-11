@@ -6,6 +6,6 @@ public class Renderer
     {
         throw new NotImplementedException();
     }
-    
-    
+
+
 }
