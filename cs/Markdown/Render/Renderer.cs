@@ -18,6 +18,8 @@ public class Renderer
             case StrongNode strong: return RenderStrong(strong);
             case TextNode text: return RenderText(text);
             case NextLineNode nextLine: return RenderNextLine(nextLine);
+            case ListNode list: return RenderList(list);
+            case ListItemNode listItem: return RenderListItem(listItem);
             default: return string.Empty;
         }
     }
@@ -32,7 +34,17 @@ public class Renderer
         return string.Join("", mainNode.Children.Select(RenderNode));
     }
     
-    
+    private string RenderList(ListNode list)
+    {
+        var content = string.Join("", list.Children.Select(RenderNode));
+        return $"<ul>{content}</ul>";
+    }
+
+    private string RenderListItem(ListItemNode listItem)
+    {
+        var content = string.Join("", listItem.Children.Select(RenderNode));
+        return $"<li>{content}</li>";
+    }
 
     private string RenderHeader(HeaderNode header)
     {

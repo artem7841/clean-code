@@ -46,6 +46,9 @@ namespace Markdown
                 case TokenType.Header:
                     return ParseHeader();
 
+                case TokenType.ListItem:
+                    return ParseListItem();
+
                 case TokenType.Emphasis:
                     return ParseEmphasisNode(inEmphasisContext);
 
@@ -81,7 +84,18 @@ namespace Markdown
             return header;
         }
 
-
+        private Node ParseListItem()
+        {
+            var start = position;
+    
+            if (!TrySkipListItemPrefix()) { return new TextNode("-");}
+    
+            var listNode = new ListNode();
+            ParseFirstListItem(listNode);
+            ParseNextListItems(listNode);
+    
+            return listNode.Children.Count > 0 ? listNode : CreateTextNodeFallback(start);
+        }
 
         private bool TrySkipListItemPrefix()
         {
@@ -97,7 +111,41 @@ namespace Markdown
             return true;
         }
 
+        private void ParseFirstListItem(ListNode listNode)
+        {
+            var firstItem = ParseListItemContent();
+            if (firstItem != null)
+                listNode.Children.Add(firstItem);
+        }
+
+        private void ParseNextListItems(ListNode listNode)
+        {
+            while (position < tokens.Count && tokens[position].Type == TokenType.NextLine)
+            {
+                position++;
         
+                if (!TrySkipListItemPrefix())
+                    break;
+            
+                var nextItem = ParseListItemContent();
+                if (nextItem != null)
+                    listNode.Children.Add(nextItem);
+            }
+        }
+
+
+
+        private ListItemNode ParseListItemContent()
+        {
+            var itemNode = new ListItemNode();
+    
+            while (position < tokens.Count && tokens[position].Type != TokenType.NextLine)
+            {
+                itemNode.Children.Add(ParseToken());
+            }
+    
+            return itemNode.Children.Count > 0 ? itemNode : null;
+        }
 
         private Node ParseEmphasisNode(bool inEmphasisContext = false)
         {

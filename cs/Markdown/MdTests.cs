@@ -15,7 +15,21 @@ namespace Markdown.Tests
             md = new Md();
         }
         
-
+        [TestCase("- пункт списка", "<ul><li>пункт списка</li></ul>")]
+        [TestCase("- первый\n- второй\n- третий", "<ul><li>первый</li><li>второй</li><li>третий</li></ul>")]
+        [TestCase("- _курсивный_ пункт", "<ul><li><em>курсивный</em> пункт</li></ul>")]
+        [TestCase("- __жирный__ пункт", "<ul><li><strong>жирный</strong> пункт</li></ul>")]
+        [TestCase("Текст \n- первый пункт\n- второй пункт", "Текст <ul><li>первый пункт</li><li>второй пункт</li></ul>")]
+        [TestCase("- первый список\n- тот же список\n\n- новый список\n- другой список", "<ul><li>первый список</li><li>тот же список</li></ul><ul><li>новый список</li><li>другой список</li></ul>")]
+        [TestCase("\\- не пункт списка", "- не пункт списка")]
+        [TestCase("Текст - не пункт", "Текст - не пункт")]
+        [TestCase("-пункт без пробела", "-пункт без пробела")]
+        [TestCase("# Заголовок\n- пункт\n- еще пункт", "<h1>Заголовок</h1><ul><li>пункт</li><li>еще пункт</li></ul>")]
+        [TestCase("- пункт\n# Заголовок\n- еще пункт", "<ul><li>пункт</li></ul><h1>Заголовок</h1><ul><li>еще пункт</li></ul>")]
+        public void Render_ListItemTag_HandlesCorrectly(string input, string expected)
+        {
+            md.Render(input).Should().Be(expected);
+        }
 
         [TestCase("", "")]
         [TestCase("   ", "   ")]
@@ -128,7 +142,7 @@ namespace Markdown.Tests
                 var sizeRatio = (double)sizes[i] / sizes[i - 1];
                 var timeRatio = (double)executionTimes[i] / Math.Max(executionTimes[i - 1], 1);
 
-                Console.WriteLine($"Size: {sizes[i-1]}->{sizes[i]}, Time: {timeRatio:F1}");
+                Console.WriteLine($"Size: {sizes[i-1]}->{sizes[i]}, Time: x{timeRatio:F1}");
                 
                 if (timeRatio > sizeRatio * 2.5)
                 {
