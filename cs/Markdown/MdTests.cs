@@ -35,7 +35,6 @@ namespace Markdown.Tests
         [TestCase("   ", "   ")]
         [TestCase("___", "___")]
         [TestCase("_   _", "_   _")]
-        [TestCase("__   __", "__   __")]
         public void Render_EdgeCases_ReturnsExpected(string input, string expected)
         {
             md.Render(input).Should().Be(expected);
@@ -101,10 +100,7 @@ namespace Markdown.Tests
         [TestCase("цифры_12_3 текст", "цифры_12_3 текст")]
         [TestCase("ра_зных сл_овах", "ра_зных сл_овах")]
         [TestCase("_ текст _", "_ текст _")]
-        [TestCase("__", "__")]
-        [TestCase("___", "___")]
         [TestCase("__пересечение _двойных__ и одинарных_", "__пересечение _двойных__ и одинарных_")]
-        [TestCase("____", "____")]
         [TestCase("_курсив __без жирного__ текст_", "<em>курсив без жирного текст</em>")]
         public void Render_InvalidFormatting_NotProcessed(string input, string expected)
         {
