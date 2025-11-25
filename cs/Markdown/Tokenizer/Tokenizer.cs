@@ -16,6 +16,7 @@ namespace Markdown
 
         public List<Token> TextToTokens(string input)
         {
+            input = input.Replace("\r\n", "\n").Replace("\r", "\n");
             var tokens = new List<Token>();
             var textBuffer = new StringBuilder();
             int position = 0;
@@ -42,6 +43,7 @@ namespace Markdown
                         ProcessNewlineToken(position, tokens, textBuffer);
                         position++;
                         break;
+                    
                         
                     case HeaderChar:
                         ProcessHeaderToken(input, position, tokens, textBuffer);
@@ -66,13 +68,31 @@ namespace Markdown
 
         private void ProcessEscapeSequence(string input, ref int position, StringBuilder textBuffer)
         {
-            if (position + 1 < input.Length && EscapableChars.Contains(input[position + 1]))
+            if (position + 1 < input.Length)
             {
-                textBuffer.Append(input[position + 1]);
-                position += 2;
+                char nextChar = input[position + 1];
+        
+                if (nextChar == EscapeChar)
+                {
+
+                    position += 2;
+                }
+                else if (EscapableChars.Contains(nextChar))
+                {
+            
+                    textBuffer.Append(nextChar);
+                    position += 2;
+                }
+                else
+                {
+
+                    textBuffer.Append(EscapeChar);
+                    position++;
+                }
             }
             else
             {
+
                 textBuffer.Append(EscapeChar);
                 position++;
             }

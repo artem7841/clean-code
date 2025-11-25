@@ -12,8 +12,12 @@ namespace Markdown.Tests
     {
         private Tokenizer tokenizer;
 
-        [SetUp]
-        public void SetUp() => tokenizer = new Tokenizer();
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            tokenizer = new Tokenizer();
+        }
 
         [Test]
         public void TextToTokens_WithEmptyInput_ReturnsEmptyList()

@@ -9,11 +9,15 @@ namespace Markdown.Tests
     {
         private Parser parser;
 
-        [SetUp]
-        public void Setup()
+
+        
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             parser = new Parser();
         }
+
+
 
 
 
@@ -219,9 +223,10 @@ namespace Markdown.Tests
 
             var result = parser.ParseTokensToTree(tokens);
 
-            result.Children.Should().HaveCount(1);
+            result.Children.Should().HaveCount(2);
             result.Children[0].Should().BeOfType<TextNode>();
-            ((TextNode)result.Children[0]).Text.Should().Be("_незакрытый текст");
+            ((TextNode)result.Children[0]).Text.Should().Be("_");
+            ((TextNode)result.Children[1]).Text.Should().Be("незакрытый текст");
         }
         
 

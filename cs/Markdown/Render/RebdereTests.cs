@@ -8,8 +8,9 @@ namespace Markdown.Tests
     {
         private Renderer renderer;
 
-        [SetUp]
-        public void Setup()
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             renderer = new Renderer();
         }
@@ -67,7 +68,7 @@ namespace Markdown.Tests
             
             var result = renderer.RenderTreeToHTML(listNode);
             
-            result.Should().Be("<ul><li>пункт</li></ul>");
+            result.Should().Be("<ul>\n<li>пункт</li>\n</ul>");
         }
 
 
@@ -79,7 +80,7 @@ namespace Markdown.Tests
             
             var result = renderer.RenderTreeToHTML(nextLineNode);
             
-            result.Should().Be("");
+            result.Should().Be("\n");
         }
 
 

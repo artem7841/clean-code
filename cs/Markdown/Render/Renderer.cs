@@ -26,7 +26,7 @@ public class Renderer
     
     private string RenderNextLine(NextLineNode nextLine)
     {
-        return "";
+        return "\n";
     }
 
     private string RenderDocument(MainNode mainNode)
@@ -36,8 +36,8 @@ public class Renderer
     
     private string RenderList(ListNode list)
     {
-        var content = string.Join("", list.Children.Select(RenderNode));
-        return $"<ul>{content}</ul>";
+        var items = list.Children.Select(RenderNode);
+        return $"<ul>\n{string.Join("\n", items)}\n</ul>";
     }
 
     private string RenderListItem(ListItemNode listItem)
